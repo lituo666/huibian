@@ -48,9 +48,7 @@ CODES SEGMENT
 		INC SI
 		DEC CL
 		JNZ LAB
-		
-		dd
-		
+		;
 		
 		
 		
