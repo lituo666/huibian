@@ -49,7 +49,7 @@ CODES SEGMENT
 		DEC CL
 		JNZ LAB
 		
-		
+		dd
 		
 		
 		
