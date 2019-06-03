@@ -34,13 +34,13 @@ CODES SEGMENT
 		ADD AL,0
 		JS LABNZ
 		JNS LABZ
-	LABZ:	;ÕýÊý
+	LABZ:	;æ­£æ•°
 		MOV AL,[SI]
 		MOV ES:[DI],AL
 		INC ZHENGSHU
 		INC DI
 		JMP NEXT
-	LABNZ:	;¸ºÊý
+	LABNZ:	;è´Ÿæ•°
 		MOV AL,[SI]
 		MOV ES:[BX],AL
 		INC FUSHU
@@ -51,7 +51,7 @@ CODES SEGMENT
 		DEC CL
 		JNZ LAB
 	;------------------------
-		MOV DX,OFFSET ZHENG ;ÏÔÊ¾ÕûÊý¸öÊý×Ö·û´®
+		MOV DX,OFFSET ZHENG ;æ˜¾ç¤ºæ•´æ•°ä¸ªæ•°å­—ç¬¦ä¸²
 		MOV AH,9
 		INT 21H
 		
