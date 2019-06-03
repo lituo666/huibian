@@ -3,8 +3,10 @@ DATAS SEGMENT
 	SHUZI DB -1,-2,-3,1,2,3
 	ZHENGSHU DB 0
 	FUSHU DB 0
-	ZHENG DB 'zheng_shu_ge_shu$'
-	FU DB 'fu_shu_ge_shu$'
+	ZHENG DB 'zheng_shu_ge_shu:$'
+	FU DB 'fu_shu_ge_shu:$'
+	Hex_table DB 30H,31H,32H,33H,34H,35H,36H,37H,38H,39H
+	
 DATAS ENDS
 DATAE SEGMENT
 	Z_SHU DB 10 DUP(?)
@@ -49,6 +51,36 @@ CODES SEGMENT
 		DEC CL
 		JNZ LAB
 	;------------------------
+		MOV DX,OFFSET ZHENG ;显示整数个数字符串
+		MOV AH,9
+		INT 21H
+		
+		MOV BX,OFFSET ZHENGSHU
+		MOV AX,[BX]
+		MOV BL,0AH
+		DIV BL ;AX/10
+		MOV BL,AL
+		MOV BH,AH
+		OR BL,30H
+		OR BH,30H
+		MOV CX,0
+		MOV CL,BL
+		MOV DX,CX
+		MOV AH,2
+		INT 21H
+		MOV CL,BH
+		MOV DX,CX
+		MOV AH,2
+		INT 21H
+		
+		MOV DX,0AH
+		MOV AH,2
+		INT 21H
+		
+		MOV DX,OFFSET FU
+		MOV AH,9
+		INT 21H
+		
 		
 		
 		
