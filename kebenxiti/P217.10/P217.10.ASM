@@ -1,0 +1,40 @@
+STACK SEGMENT STACK
+    DB 100 DUP(?)
+STACK ENDS
+
+CODE SEGMENT
+    MAIN PROC FAR
+    ASSUME CS:CODE;SS:STACK
+    START:  PUSH DS
+            MOV AX,0
+            PUSH AX
+            MOV AX,DATA
+            MOV DS,AX
+		
+            MOV AX,0ABCDH
+			
+			MOV DX,AX
+			AND DX,000FH
+			
+			MOV CL,4
+			SHR AX,CL
+			MOV CX,AX
+			AND CX,000FH
+			PUSH CX
+			
+			MOV CL,4
+			SHR AX,CL
+			MOV BX,AX
+			AND BX,000FH
+			
+			MOV CL,4
+			SHR AX,CL
+			
+			POP CX
+			
+            RET
+    MAIN ENDP
+CODE ENDS
+END START
+
+
