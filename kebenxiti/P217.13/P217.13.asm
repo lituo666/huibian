@@ -23,7 +23,7 @@ CODES SEGMENT
 		MOV AX,SEG DATAE
 		MOV ES,AX
 		
-		MOV CL,20	;数组个数
+		MOV CX,20	;数组个数
 		MOV SI,OFFSET SHUZI
 		MOV DI,OFFSET Z_SHU
 		MOV BX,OFFSET F_SHU
@@ -46,9 +46,8 @@ CODES SEGMENT
 		JMP NEXT
 	NEXT:
 		INC SI
-		DEC CL
-		JNZ LAB
-	;------------------------
+		LOOP LAB	;CX减1,CX不等于0转移
+	;------------------------以下为显示部分
 		MOV DX,OFFSET ZHENG ;显示正数个数字符串
 		MOV AH,9
 		INT 21H
