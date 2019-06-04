@@ -1,13 +1,11 @@
 DATAS SEGMENT
-	;SHUZI DB -1,-2,-3,-4,-5,-6,-7,-8,-9,-10,10,9,8,7,6,5,4,3,2,1
-	SHUZI DB -1,-2,-3,1,2,3
+	SHUZI DB -1,-2,-3,-4,-5,-6,-7,-8,-9,10,10,9,8,7,6,5,4,3,2,1
 	ZHENGSHU DB 0
 	FUSHU DB 0
 	ZHENG DB 'zheng_shu_ge_shu:$'
 	FU DB 'fu_shu_ge_shu:$'
-	Hex_table DB 30H,31H,32H,33H,34H,35H,36H,37H,38H,39H
-	
 DATAS ENDS
+
 DATAE SEGMENT
 	Z_SHU DB 10 DUP(?)
 	F_SHU DB 10 DUP(?)
@@ -25,15 +23,15 @@ CODES SEGMENT
 		MOV AX,SEG DATAE
 		MOV ES,AX
 		
-		MOV CL,6
+		MOV CL,20	;数组个数
 		MOV SI,OFFSET SHUZI
 		MOV DI,OFFSET Z_SHU
 		MOV BX,OFFSET F_SHU
 	LAB:
 		MOV AL,[SI]
 		ADD AL,0
-		JS LABNZ
-		JNS LABZ
+		JS LABNZ	;符号位为1，说明是负数
+		JNS LABZ	;SF=0,说明是正数
 	LABZ:	;正数
 		MOV AL,[SI]
 		MOV ES:[DI],AL
@@ -51,16 +49,17 @@ CODES SEGMENT
 		DEC CL
 		JNZ LAB
 	;------------------------
-		MOV DX,OFFSET ZHENG ;显示整数个数字符串
+		MOV DX,OFFSET ZHENG ;显示正数个数字符串
 		MOV AH,9
 		INT 21H
 		
 		MOV BX,OFFSET ZHENGSHU
-		MOV AX,[BX]
+		MOV AX,0
+		MOV AL,[BX]
 		MOV BL,0AH
 		DIV BL ;AX/10
-		MOV BL,AL
-		MOV BH,AH
+		MOV BL,AL	;商
+		MOV BH,AH	;余数
 		OR BL,30H
 		OR BH,30H
 		MOV CX,0
@@ -73,14 +72,31 @@ CODES SEGMENT
 		MOV AH,2
 		INT 21H
 		
-		MOV DX,0AH
+		MOV DX,0AH	;换行符
 		MOV AH,2
 		INT 21H
 		
-		MOV DX,OFFSET FU
+		MOV DX,OFFSET FU	;显示负数个数字符串
 		MOV AH,9
 		INT 21H
-		
+		MOV BX,OFFSET FUSHU
+		MOV AX,0
+		MOV AL,[BX]
+		MOV BL,0AH
+		DIV BL ;AX/10
+		MOV BL,AL	;商
+		MOV BH,AH	;余数
+		OR BL,30H
+		OR BH,30H
+		MOV CX,0
+		MOV CL,BL
+		MOV DX,CX
+		MOV AH,2
+		INT 21H
+		MOV CL,BH
+		MOV DX,CX
+		MOV AH,2
+		INT 21H
 		
 		
 		
